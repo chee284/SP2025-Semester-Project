@@ -5,7 +5,7 @@ Name your repository using the following format:
 (Example: SP2025_Group_9)
 
 ## Team Members
-- **&lt;Member Name&gt;**: &lt;Email Address&gt; ; &lt;Github ID&gt;
+- **&lt;Evan Chee&gt;**: &lt;chee@wustl.edu&gt; ; &lt;chee284&gt;
 - **&lt;Member Name&gt;**: &lt;Email Address&gt; ; &lt;Github ID&gt;
 - **&lt;Member Name&gt;**: &lt;Email Address&gt; ; &lt;Github ID&gt;
 
