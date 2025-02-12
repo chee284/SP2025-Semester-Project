@@ -2,7 +2,6 @@
 
 const LandingPage = () => {
     return (
-
         <div className="flex flex-col gap-32 max-w-7xl mx-auto px-4 md:px-8 leading-relaxed">
             {/* Hero Section */}
             <section className="min-h-[80vh] grid place-content-center text-center">
