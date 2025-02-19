@@ -21,8 +21,8 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Login Link (Right side) */}
-            <Link to="/signup" className="text-gray-900 text-l font-semibold ml-auto">
-                Sign Up
+            <Link to="/login" className="text-gray-900 text-l font-semibold ml-auto">
+                Log In
             </Link>
         </div>
       </div>
