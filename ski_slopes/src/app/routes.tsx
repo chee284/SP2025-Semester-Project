@@ -5,7 +5,7 @@ import LandingPage from "./routes/LandingPage";
 import About from "./routes/About";
 import PageNotFound from "./routes/error/PageNotFound";
 import Login from "./routes/Login";
-import Editor from "./routes/Editor";
+import Dashboard from "./routes/Dashboard";
 
 export default function AppRoutes() {
     return (
@@ -14,7 +14,7 @@ export default function AppRoutes() {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/editor" element={<Editor />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="*" element={<PageNotFound />} />
             </Route>
         
