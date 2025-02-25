@@ -75,7 +75,7 @@ const Scene: React.FC = () => {
                     position: [363.77, 313.07, -369.16], 
                     fov: 75,
                     near: 0.1,
-                    far: 15000
+                    far: 150000
                 }}
             >
                 <Suspense fallback={<Loader />}>
@@ -87,7 +87,7 @@ const Scene: React.FC = () => {
                         ref={controlsRef} 
                         target={[0, 0, 0]}
                         minDistance={100}
-                        maxDistance={800}
+                        maxDistance={10000}
                         enableRotate={true}
                         // rotateSpeed={0.5}
                         minPolarAngle={0}
@@ -115,7 +115,8 @@ const Dashboard: React.FC = () => {
         return (
             <PanelResizeHandle className="w-2 group flex items-center justify-center hover:bg-gray-200 transition-colors">
                 <div className="flex flex-col gap-1">
-                    <div className="w-1 h-screen rounded-full bg-gray-300 group-hover:bg-gray-400 transition-colors" />            </div>
+                    <div className="w-1 h-screen rounded-full bg-gray-300 group-hover:bg-gray-400 transition-colors" />
+                </div>
             </PanelResizeHandle>
         );
     };

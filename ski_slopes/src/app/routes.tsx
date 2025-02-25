@@ -7,6 +7,7 @@ import Login from "./routes/Login";
 import ResortIndex from "./routes/ResortIndex";
 import Dashboard from "./routes/Dashboard";
 import PageNotFound from "./routes/error/PageNotFound";
+import Render from "./routes/Render";
 
 export default function AppRoutes() {
     return (
@@ -17,8 +18,11 @@ export default function AppRoutes() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/resorts" element={<ResortIndex />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/render" element={<Render />} />
+
                 <Route path="*" element={<PageNotFound />} />
             </Route>
+            
         
         </Routes>
     );
