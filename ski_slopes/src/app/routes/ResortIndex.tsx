@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 type Resort = {
     name: string;
@@ -17,14 +18,14 @@ const resortData: Resort[] = [
         description: "Known for its steep terrain and deep powder, Jackson Hole offers a challenging 2,500 acres of terrain and a 4,139-foot vertical rise"
     },
     {
-        name: "Mt. Baker",
-        imagePath: "/assets/baker/mtbaker.png",
-        description: "Renowned for its record-breaking snowfall and rugged terrain, Mt. Baker features steep, technical runs and expansive backcountry access"
-    },
-    {
         name: "Telluride",
         imagePath: "/assets/telluride/telluride.png",
         description: "Nestled in Colorado's San Juan Mountains, this destination features diverse terrain and a charming historic mountain town" 
+    },
+    {
+        name: "Mt. Baker",
+        imagePath: "/assets/baker/mtbaker.png",
+        description: "Renowned for its record-breaking snowfall and rugged terrain, Mt. Baker features steep, technical runs and expansive backcountry access"
     },
     {
         name: "Snowbird",
@@ -54,13 +55,22 @@ const ResortIndex: React.FC = () => {
         <main className="h-[calc(100vh-3rem)] w-full mt-12 flex flex-col">
             {/* Top half */}
             <div className="h-1/2 w-full bg-gray-50">
-                <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
+                <div className="max-w-7xl mx-auto px-4 h-full flex flex-col justify-center">
                     <div className="space-y-4">
                         <h1 className="text-4xl font-light">Explore Ski Resorts</h1>
                         <p className="text-gray-600 max-w-xl">
                             Discover detailed 3D terrain maps and information about North America's premier ski destinations.
                         </p>
                     </div>
+                    <Link 
+                        to="/dashboard" 
+                        className="bg-gray-800 hover:bg-gray-900 text-white py-2.5 px-6 rounded-md font-medium transition-colors duration-200 flex items-center gap-2 shadow-sm w-fit mt-6"
+                    >
+                        <span>View in 3D</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                    </Link>
                 </div>
             </div>
 
