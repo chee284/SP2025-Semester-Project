@@ -11,18 +11,18 @@ const Navbar: React.FC = () => {
 
             {/* Navigation Links (Centered) */}
             <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-8">
-                <Link to="/about" className="text-gray-900 text-l">
+                {/* <Link to="/about" className="text-gray-900 text-l">
                     About
-                </Link>
+                </Link> */}
 
-                <Link to="/resorts" className="text-gray-900 text-l">
+                {/* <Link to="/resorts" className="text-gray-900 text-l">
                     Resorts
-                </Link>
+                </Link> */}
             </div>
 
             {/* Login Link (Right side) */}
             <Link to="/login" className="text-gray-900 text-l font-semibold ml-auto">
-                Log In
+                Sign Up
             </Link>
         </div>
       </div>
