@@ -8,6 +8,7 @@ import ResortIndex from "./routes/ResortIndex";
 import Dashboard from "./routes/Dashboard";
 import PageNotFound from "./routes/error/PageNotFound";
 import Render from "./routes/Render";
+import AuthCallback from "./routes/AuthCallback"; 
 
 export default function AppRoutes() {
     return (
@@ -19,6 +20,7 @@ export default function AppRoutes() {
                 <Route path="/resorts" element={<ResortIndex />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/render" element={<Render />} />
+                <Route path="/auth/callback" element={<AuthCallback />} />
 
                 <Route path="*" element={<PageNotFound />} />
             </Route>
