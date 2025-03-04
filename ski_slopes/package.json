@@ -15,6 +15,7 @@
     "@react-three/drei": "^9.121.5",
     "@react-three/fiber": "^8.17.14",
     "@supabase/supabase-js": "^2.49.1",
+    "@rollup/rollup-darwin-x64": "^4.34.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cookie-session": "^2.1.0",
