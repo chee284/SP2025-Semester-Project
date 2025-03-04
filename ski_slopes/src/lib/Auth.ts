@@ -1,21 +1,35 @@
 // src/lib/Auth.ts
-import { auth, provider, signInWithPopup, signOut } from "./firebase";
-import { User } from "firebase/auth";
+import { supabase } from "./supabase";
 
-export async function loginWithGoogle(): Promise<User | null> {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    return result.user;
-  } catch (error) {
-    console.error("Google login failed:", error);
+// redirects to home page after login
+export async function loginWithGoogle() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: "http://127.0.0.1:5173/auth/callback" }, 
+  });
+
+  if (error) {
+    console.error("Google login failed:", error.message);
     return null;
   }
+
+  return data; 
 }
 
+
+export async function getUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error("Failed to get user:", error.message);
+    return null;
+  }
+  return data.user;
+}
+
+
 export async function logout() {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    console.error("Logout failed:", error);
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("Logout failed:", error.message);
   }
 }
