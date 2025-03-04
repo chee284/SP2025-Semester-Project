@@ -16,7 +16,7 @@ export default function AuthCallback() {
                 console.log("User session:", data.session);
             }
 
-            navigate("/"); 
+            navigate("/login"); 
         }
 
         handleAuthRedirect();

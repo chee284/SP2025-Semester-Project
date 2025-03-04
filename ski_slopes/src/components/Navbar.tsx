@@ -26,7 +26,11 @@ const Navbar: React.FC = () => {
         <div className="flex items-center h-full px-4 leading-relaxed">
             {/* Logo + Back to home */}
             <Link to="/" className="text-gray-900 text-xl font-semibold">
-                Logo
+                <img 
+                    src="/assets/logo/temp_logo2.png"
+                    alt="Logo" 
+                    className="h-10 w-auto object-contain"
+                />
             </Link>
 
             {/* Navigation Links (Centered) */}
