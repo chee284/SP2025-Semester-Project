@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
@@ -46,8 +46,19 @@ const Navbar: React.FC = () => {
 
             {/* Login Link (Right side) */}
             {user ? (
-                <Link to="/login" className="text-gray-900 text-l font-semibold ml-auto">
-                    {user.email ?? "Signed In"}
+                <Link to="/user" className="flex items-center gap-2 text-gray-900 text-l font-semibold ml-auto">
+                    <span className="text-gray-900">{user.user_metadata?.full_name ?? user.email}</span>
+                    {user.user_metadata?.avatar_url ? (
+                        <img 
+                            src={user.user_metadata.avatar_url}
+                            alt="Profile" 
+                            className="h-8 w-8 rounded-full object-cover"
+                        />
+                    ) : (
+                        <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+                            <span className="text-gray-600 text-sm">{user.email?.[0].toUpperCase()}</span>
+                        </div>
+                    )}
                 </Link>
             ) : (
                 <Link to="/login" className="text-gray-900 text-l font-semibold ml-auto">

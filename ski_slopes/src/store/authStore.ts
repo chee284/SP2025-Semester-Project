@@ -6,6 +6,29 @@ const supabase = createClient(
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
 );
 
+// Initialize session on page load
+const initSession = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+        useAuthStore.setState({ 
+            session: session, 
+            user: session.user, 
+            isAuthenticated: true, 
+            isLoading: false 
+        });
+    } else {
+        useAuthStore.setState({ 
+            session: null, 
+            user: null, 
+            isAuthenticated: false, 
+            isLoading: false 
+        });
+    }
+};
+
+// Call initSession immediately
+initSession();
+
 supabase.auth.onAuthStateChange((event, session) => {
     if (event === "SIGNED_IN") {
         console.log("signed in");
@@ -21,7 +44,8 @@ supabase.auth.onAuthStateChange((event, session) => {
             session: null, 
             user: null, 
             isAuthenticated: false, 
-            isLoading: false });
+            isLoading: false 
+        });
     }
 });
 
@@ -46,11 +70,27 @@ export const useAuthStore = create<Auth>((set) => ({
     getUser: async () => {
         try {
             set({ isLoading: true });
-            const { data, error } = await supabase.auth.getUser();
-            if (error) throw error;
-            set({ user: data.user });
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                set({ 
+                    session: session,
+                    user: session.user,
+                    isAuthenticated: true
+                });
+            } else {
+                set({ 
+                    session: null,
+                    user: null,
+                    isAuthenticated: false
+                });
+            }
         } catch (error) {
             console.error("get user failed:", error);
+            set({ 
+                session: null,
+                user: null,
+                isAuthenticated: false
+            });
         } finally {
             set({ isLoading: false });
         }
@@ -87,8 +127,6 @@ export const useAuthStore = create<Auth>((set) => ({
         }
     },
 
-
-    
     signOut: async () => {
         try {
             const { error } = await supabase.auth.signOut();
