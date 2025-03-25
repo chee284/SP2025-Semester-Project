@@ -2,6 +2,7 @@
 import { Canvas, useThree, useFrame  } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Html, useProgress, GizmoHelper, GizmoViewport } from "@react-three/drei";
 import { Suspense, useState, useEffect } from 'react';
+import { ResortMarker, MapMarker, Billboard } from "@/components/JacksonObjects";
 
 const availableModels = [
     { name: "Jackson Hole", path: "/models/jackson-hole.glb" },
@@ -67,7 +68,7 @@ const CameraPosition = () => {
 const Render: React.FC = () => {
     const [selectedModel, setSelectedModel] = useState(availableModels[0].path);
     // Set the initial camera distance
-    const [cameraDistance, setCameraDistance] = useState(40000);
+    const [cameraDistance, _setCameraDistance] = useState(40000);
 
     // Camera controls component that sets the initial camera position
     const CameraSetup = () => {
@@ -114,6 +115,14 @@ const Render: React.FC = () => {
                     <GizmoHelper alignment="top-right" margin={[70, 70]}>
                         <GizmoViewport />
                     </GizmoHelper>
+
+                    {selectedModel === "/models/jackson-hole.glb" && 
+                        <>
+                            <ResortMarker />
+                            <MapMarker />
+                            <Billboard />
+                        </>
+                    }
 
                     {/* Display current camera position */}
                     <CameraPosition />

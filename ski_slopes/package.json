@@ -12,7 +12,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^2.3.0",
     "@radix-ui/react-slot": "^1.1.1",
-    "@react-three/drei": "^9.121.5",
+    "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.17.14",
     "@supabase/supabase-js": "^2.49.1",
     "class-variance-authority": "^0.7.1",
