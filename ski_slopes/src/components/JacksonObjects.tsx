@@ -141,7 +141,7 @@ export const Billboard = () => {
                 transform
             >
                 <div className="rounded-lg shadow-lg overflow-hidden p-3 w-[1500px]" >
-                    <h2 className="text-2xl font-bold text-center mb-3 animate-pulse">Claim Offers</h2>
+                    <h2 className="text-2xl font-bold text-center mb-3">Claim Offers</h2>
                     <div className="grid grid-cols-2 gap-4">
                         {advertisementData.map((ad, index) => (
                             <a 
@@ -158,7 +158,7 @@ export const Billboard = () => {
                                         className="w-full h-32 object-cover"
                                     />
                                     <div className="p-3">
-                                        <h3 className="text-lg font-bold">{ad.title}</h3>
+                                        <h3 className="text-lg font-bold uppercase animate-pulse">{ad.title}</h3>
                                         <p className="text-sm text-gray-600">Click for more info</p>
                                     </div>
                                 </div>
