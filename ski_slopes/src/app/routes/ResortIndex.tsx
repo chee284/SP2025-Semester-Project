@@ -38,18 +38,19 @@ const resortData: Resort[] = [
 ];
 
 const ResortCard: React.FC<ResortCardProps> = ({ resort }) => {
-    const { toggleFavorite, isFavorite } = useFavoriteStore();
+    const { toggleFavorite, isFavorite, isLoading } = useFavoriteStore();
     const { isAuthenticated } = useAuthStore();
     const [isStarred, setIsStarred] = React.useState(false);
 
-    // Update local state when favorites change or auth state changes
+    // Update local state when favorites change, auth state changes, or loading completes
     useEffect(() => {
-        if (isAuthenticated) {
-            setIsStarred(isFavorite(resort.name));
+        if (isAuthenticated && !isLoading) {
+            const favorited = isFavorite(resort.name);
+            setIsStarred(favorited);
         } else {
             setIsStarred(false);
         }
-    }, [isAuthenticated, resort.name, isFavorite]);
+    }, [isAuthenticated, resort.name, isFavorite, isLoading]);
 
     const handleFavoriteClick = async (e: React.MouseEvent) => {
         e.preventDefault();  // Prevent link navigation
