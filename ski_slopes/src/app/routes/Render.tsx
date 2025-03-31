@@ -2,7 +2,9 @@
 import { Canvas, useThree, useFrame  } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Html, useProgress, GizmoHelper, GizmoViewport } from "@react-three/drei";
 import { Suspense, useState, useEffect } from 'react';
-import { ResortMarker, MapMarker, Billboard } from "@/components/JacksonObjects";
+import { JacksonResortMarker, JacksonMapMarker, JacksonBillboard, JacksonTerrainSidebar } from "@/components/JacksonObjects";
+import { TellurideResortMarker, TellurideMapMarker, TellurideBillboard, TellurideTerrainSidebar } from "@/components/TellurideObjects";
+import { BakerResortMarker, BakerMapMarker } from "@/components/BackerObjects";
 
 const availableModels = [
     { name: "Jackson Hole", path: "/models/jackson-hole.glb" },
@@ -23,7 +25,6 @@ const ModelPreloader: React.FC = () => {
             useGLTF.preload(model.path);
         });
     }, []);
-    
     return null;
 };
 
@@ -61,7 +62,6 @@ const CameraPosition = () => {
             div.textContent = `X: ${pos[0]} Y: ${pos[1]} Z: ${pos[2]}`;
         }
     });
-
     return null;
 };
 
@@ -70,21 +70,14 @@ const Render: React.FC = () => {
     // Set the initial camera distance
     const [cameraDistance, _setCameraDistance] = useState(40000);
 
-    // Camera controls component that sets the initial camera position
     const CameraSetup = () => {
+        // Camera controls component that sets the initial camera position
         const { camera } = useThree();
-        
         useEffect(() => {
-            // Position camera at a 45-degree angle above the scene
-            // const offset = cameraDistance / Math.sqrt(3); // Equal distance in each direction
-            // camera.position.set(offset, offset, offset);
-            // camera.lookAt(0, 0, 0);
-
             // Position camera above the scene
             camera.position.set(0, cameraDistance, 0);
             camera.lookAt(0, 0, 0);
         }, [camera, cameraDistance]);
-        
         return null;
     };
 
@@ -118,9 +111,26 @@ const Render: React.FC = () => {
 
                     {selectedModel === "/models/jackson-hole.glb" && 
                         <>
-                            <ResortMarker />
-                            <MapMarker />
-                            <Billboard />
+                            <JacksonResortMarker />
+                            <JacksonMapMarker />
+                            <JacksonBillboard />
+                            <JacksonTerrainSidebar />
+                        </>
+                    }
+
+                    {selectedModel === "/models/telluride.glb" &&
+                        <>
+                            <TellurideResortMarker />
+                            <TellurideMapMarker />
+                            <TellurideBillboard />
+                            <TellurideTerrainSidebar />
+                        </>
+                    }
+
+                    {selectedModel === "/models/mt-baker.glb" &&
+                        <>
+                            <BakerResortMarker />
+                            <BakerMapMarker />
                         </>
                     }
 
