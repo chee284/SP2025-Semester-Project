@@ -1,7 +1,7 @@
 import { Mesh } from 'three';
-import { useState, useRef, useEffect, Suspense } from 'react';
+import { useState, useRef } from 'react';
 import { Html } from '@react-three/drei';
-
+import { Sun, Snowflake, Thermometer } from 'lucide-react'
 
 type Resort = {
     name: string;
@@ -15,16 +15,16 @@ const resortInfo: Resort = {
     url: "https://www.jacksonhole.com/"
 }
 
-export const ResortMarker = () => {
+export const JacksonResortMarker = () => {
     return (
         <group position={[-716.76, 5078.31, -1562.35]} rotation={[0, Math.PI * 0.20, 0]} renderOrder={-50} >
             <Html
                 position={[0, 0, 0]}
                 center
-                distanceFactor={20000}
+                distanceFactor={15000}
                 transform
             >
-                <div className="rounded-lg shadow-xl overflow-hidden w-64 transform transition-transform hover:scale-105">
+                <div className="rounded-lg shadow-xl overflow-hidden w-64 transform transition-transform hover:scale-105 select-none">
                     <div className="relative">
                         <img 
                             src={resortInfo.imagePath} 
@@ -33,7 +33,7 @@ export const ResortMarker = () => {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 flex flex-col items-center justify-end p-4">
                             <h3 className="text-white text-2xl font-bold mb-2">{resortInfo.name}</h3>
-                            <a href={resortInfo.url} target="_blank" rel="noopener noreferrer" className="text-white/80 text-sm">Click to visit resort</a>
+                            <a href={resortInfo.url} target="_blank" rel="noopener noreferrer" className="text-white/80 text-sm animate-pulse">Click to visit resort</a>
                         </div>
                     </div>
                 </div>
@@ -49,16 +49,21 @@ type MapMarker = {
 
 const mapMarkers: MapMarker[] = [
     {
-        name: "Jackson Hole Airport (JAC)",
-        position: [14765.80, 1600.18, -780.87],
+        name: "Jackson Hole Mountain Resort",
+        position: [2882.40, 1600.00, 108.00],
     },
     {
-        name: "Jackson Hole Mountain Resort",
-        position: [4441.05, 2026.75, 2599.17],
+        name: "Jackson Hole Airport (JAC)",
+        position: [14765.80, 1600.00, -780.87],
+    },
+    {
+        name: "Teton Village",
+        position: [5327.32, 1600.00, 3068.72],
     }
+
 ];
 
-export const MapMarker = () => {
+export const JacksonMapMarker = () => {
     return (
         <>
             {mapMarkers.map((marker, index) => (
@@ -82,7 +87,12 @@ const MapMarkerItem = ({ marker }: { marker: MapMarker }) => {
                 renderOrder={2}
             >
                 <sphereGeometry args={[200, 16, 16]} />
-                <meshStandardMaterial color={'white'} />
+                <meshStandardMaterial 
+                    color={'white'} 
+                    emissive={'#ff3b3b'}
+                    emissiveIntensity={0.5}
+                    toneMapped={false}  
+                />
             </mesh>
             
             {hovered && (
@@ -90,10 +100,10 @@ const MapMarkerItem = ({ marker }: { marker: MapMarker }) => {
                     position={[0, 1000, 0]}
                     className="pointer-events-none"
                     center
-                    distanceFactor={20000}
+                    // distanceFactor={15000}
                     occlude
                 >
-                    <div className="bg-white p-3 rounded-lg shadow-lg w-48">
+                    <div className="bg-white p-3 rounded-lg shadow-lg w-64">
                         <h4 className="text-md font-bold mb-1">{marker.name}</h4>
                     </div>
                 </Html>
@@ -125,13 +135,13 @@ const advertisementData: Advertisement[] = [
         url: "https://www.jacksonhole.com/300-off"
     },
     {
-        title: "Save with a Mountain Collective Pass",
+        title: "Save big with a Mountain Collective Pass",
         imagePath: "/assets/jackson_hole/resort.jpg",
         url: "https://www.jacksonhole.com/mountain-collective-lodging-specials"
     }
 ];
 
-export const Billboard = () => {
+export const JacksonBillboard = () => {
     return (
         <group position={[0, 17000, -25000]} rotation={[0, 0, 0]} renderOrder={-100} >
             <Html
@@ -140,8 +150,8 @@ export const Billboard = () => {
                 distanceFactor={20000}
                 transform
             >
-                <div className="rounded-lg shadow-lg overflow-hidden p-3 w-[1500px]" >
-                    <h2 className="text-2xl font-bold text-center mb-3">Claim Offers</h2>
+                <div className="rounded-lg overflow-hidden p-3 w-[1500px]" >
+                    <h2 className="text-2xl font-bold text-center mb-3 select-none">Claim Offers</h2>
                     <div className="grid grid-cols-2 gap-4">
                         {advertisementData.map((ad, index) => (
                             <a 
@@ -151,19 +161,144 @@ export const Billboard = () => {
                                 rel="noopener noreferrer"
                                 className="block cursor-pointer bg-white rounded-lg shadow overflow-hidden transition transform hover:scale-105"
                             >
-                                <div className="relative">
+                                <div className="relative shadow-lg">
                                     <img 
                                         src={ad.imagePath} 
                                         alt={ad.title}
                                         className="w-full h-32 object-cover"
                                     />
                                     <div className="p-3">
-                                        <h3 className="text-lg font-bold uppercase animate-pulse">{ad.title}</h3>
-                                        <p className="text-sm text-gray-600">Click for more info</p>
+                                        <h3 className="text-lg font-bold uppercase">{ad.title}</h3>
+                                        <p className="text-sm text-gray-600 animate-pulse">Click for more info</p>
                                     </div>
                                 </div>
                             </a>
                         ))}
+                    </div>
+                </div>
+            </Html>
+        </group>
+    );
+}
+
+type JacksonWeather = {
+    date: string;
+    snowfall_chance: number;
+    snowfall_total: number;
+    astronomy: {
+        sunrise: string;
+        sunset: string;
+    }[];
+    temperature: {
+        top: {
+            min_f: number;
+            max_f: number;
+            min_c: number;
+            max_c: number;
+        };
+        mid: {
+            min_f: number;
+            max_f: number;
+            min_c: number;
+            max_c: number;
+        };
+        bottom: {
+            min_f: number;
+            max_f: number;
+            min_c: number;
+            max_c: number;
+        };
+    };
+}
+
+const mockWeatherData: JacksonWeather = {
+    date: "2024-03-14",
+    snowfall_chance: 70,
+    snowfall_total: 15,
+    astronomy: [{
+        sunrise: "7:15 AM",
+        sunset: "6:45 PM"
+    }],
+    temperature: {
+        top: {
+            min_f: 15,
+            max_f: 25,
+            min_c: -9,
+            max_c: -4
+        },
+        mid: {
+            min_f: 20,
+            max_f: 30,
+            min_c: -7,
+            max_c: -1
+        },
+        bottom: {
+            min_f: 25,
+            max_f: 35,
+            min_c: -4,
+            max_c: 2
+        }
+    }
+};
+
+export const JacksonTerrainSidebar = () => {
+    return (
+        <group position={[32000.00, 1600.00, -1000.00]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={100}>
+            <Html
+                position={[0, 0, 0]}
+                center
+                distanceFactor={20000}
+                transform
+            >
+                <div className="w-[300px] bg-gradient-to-b from-black/80 to-black/60 rounded-lg overflow-y-auto text-white p-4 select-none">
+                    <h3 className="text-xl font-bold text-center mb-4">Jackson Hole Weather</h3>
+                    
+                    {/* Snow Conditions */}
+                    <div className="bg-white/10 rounded-lg p-3 mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Snowflake className="w-5 h-5 text-blue-300" />
+                            <h4 className="font-medium">Snow Conditions</h4>
+                        </div>
+                        <p className="text-sm">Chance of Snow: {mockWeatherData.snowfall_chance}%</p>
+                        <p className="text-sm">Expected Snowfall: {mockWeatherData.snowfall_total}cm</p>
+                    </div>
+
+                    {/* Daylight */}
+                    <div className="bg-white/10 rounded-lg p-3 mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Sun className="w-5 h-5 text-yellow-300" />
+                            <h4 className="font-medium">Daylight</h4>
+                        </div>
+                        <p className="text-sm">Sunrise: {mockWeatherData.astronomy[0].sunrise}</p>
+                        <p className="text-sm">Sunset: {mockWeatherData.astronomy[0].sunset}</p>
+                    </div>
+
+                    {/* Temperature Levels */}
+                    <div className="bg-white/10 rounded-lg p-3">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Thermometer className="text-red-300" />
+                            <h4 className="font-medium">Temperature</h4>
+                        </div>
+                        
+                        <div className="space-y-3">
+                            <div>
+                                <h5 className="text-sm font-medium">Summit</h5>
+                                <p className="text-sm">{mockWeatherData.temperature.top.min_f}°F to {mockWeatherData.temperature.top.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({mockWeatherData.temperature.top.min_c}°C to {mockWeatherData.temperature.top.max_c}°C)</p>
+                            </div>
+                            
+                            <div>
+                                <h5 className="text-sm font-medium">Mid-Mountain</h5>
+                                <p className="text-sm">{mockWeatherData.temperature.mid.min_f}°F to {mockWeatherData.temperature.mid.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({mockWeatherData.temperature.mid.min_c}°C to {mockWeatherData.temperature.mid.max_c}°C)</p>
+                            </div>
+                            
+                            <div>
+                                <h5 className="text-sm font-medium">Base</h5>
+                                <p className="text-sm">{mockWeatherData.temperature.bottom.min_f}°F to {mockWeatherData.temperature.bottom.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({mockWeatherData.temperature.bottom.min_c}°C to {mockWeatherData.temperature.bottom.max_c}°C)</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Html>
