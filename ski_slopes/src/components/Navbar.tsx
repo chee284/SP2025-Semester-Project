@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
 
         checkUser();
 
-        const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
             setUser(session?.user ?? null);
         });
 

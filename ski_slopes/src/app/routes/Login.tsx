@@ -1,8 +1,12 @@
 // src/components/Login.tsx
+<<<<<<< Updated upstream
 import { useState, useEffect } from "react";
 import { loginWithGoogle, logout } from "@/lib/Auth";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js"; 
+=======
+import { useAuthStore } from "@/store/authStore";
+>>>>>>> Stashed changes
 
 export default function Login() {
   const [user, setUser] = useState<User | null>(null);
