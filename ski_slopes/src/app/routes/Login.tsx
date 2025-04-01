@@ -1,5 +1,4 @@
 // src/components/Login.tsx
-import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 
 export default function Login() {
