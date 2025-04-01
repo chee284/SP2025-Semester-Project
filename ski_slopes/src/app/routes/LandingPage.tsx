@@ -61,16 +61,23 @@ const LandingPage = () => {
 
             {/* Featured Work Section */}
             <section className="space-y-16 p-4">
-                <h2 className="text-2xl font-light">Resort Features</h2>
-                
-                {/* Projects grid with varying column spans */}
+            <h2 className="text-2xl font-light">Resort Features</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2 aspect-video bg-gray-100 rounded-lg"></div>
-                    <div className="aspect-square bg-gray-100 rounded-lg"></div>
-                    <div className="aspect-square bg-gray-100 rounded-lg"></div>
-                    <div className="lg:col-span-2 aspect-video bg-gray-100 rounded-lg"></div>
+                    <div className="lg:col-span-2 aspect-video rounded-lg">
+                        <img src="/assets/features/skiing.jpg" alt="Skiing" className="w-full h-full object-cover rounded-lg"/>
+                    </div>
+                    <div className="aspect-square rounded-lg">
+                        <img src="/assets/features/resort.jpg" alt="Resort" className="w-full h-full object-cover rounded-lg"/>
+                    </div>
+                    <div className="aspect-square rounded-lg">
+                        <img src="/assets/features/sunset.jpg" alt="Sunset" className="w-full h-full object-cover rounded-lg"/>
+                    </div>
+                    <div className="lg:col-span-2 aspect-video rounded-lg">
+                        <img src="/assets/features/family.jpg" alt="Family" className="w-full h-full object-cover rounded-lg"/>
+                    </div>
                 </div>
-            </section>
+
+</section>
 
             {/* Contact Section - two-column layout */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start pb-32 p-4">
