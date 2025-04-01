@@ -9,7 +9,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // Test database connection
 export const testConnection = async () => {
     try {
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('favorites')
             .select('*')
             .limit(1);
@@ -28,7 +28,7 @@ export const testConnection = async () => {
 };
 
 // Create favorites table
-const createFavoritesTable = async () => {
+export const createFavoritesTable = async () => {
     const { error } = await supabase.rpc('create_table_if_not_exists', {
         table_sql: `
             CREATE TABLE IF NOT EXISTS favorites (
