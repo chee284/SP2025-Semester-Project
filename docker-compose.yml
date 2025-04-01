@@ -5,7 +5,7 @@ services:
   frontend:
     build:
       context: ./ski_slopes
-      dockerfile: ../docker/frontend/Dockerfile
+      dockerfile: ./Dockerfile
     container_name: ski_slopes_frontend
     ports:
       - "5173:5173"
