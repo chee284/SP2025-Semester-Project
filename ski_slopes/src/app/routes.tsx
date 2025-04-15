@@ -9,7 +9,7 @@ import Dashboard from "./routes/Dashboard";
 import UserPage from "./routes/UserPage";
 import PageNotFound from "./routes/error/PageNotFound";
 import Render from "./routes/Render";
-// import AuthCallback from "./routes/AuthCallback"; 
+import AuthCallback from "./routes/AuthCallback";
 
 export default function AppRoutes() {
     return (
@@ -22,7 +22,7 @@ export default function AppRoutes() {
                 <Route path="/render" element={<Render />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/user" element={<UserPage />} />
-                {/* <Route path="/auth/callback" element={<AuthCallback />} /> */}
+                <Route path="/auth/callback" element={<AuthCallback />} />
 
                 <Route path="*" element={<PageNotFound />} />
             </Route>

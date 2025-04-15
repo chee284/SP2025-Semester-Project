@@ -5,7 +5,9 @@ import { supabase } from "./supabase";
 export async function loginWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo: "http://127.0.0.1:5173/auth/callback" }, 
+    options: { 
+      redirectTo: import.meta.env.VITE_AUTH_REDIRECT_URI || "http://127.0.0.1:5173/auth/callback"
+    }, 
   });
 
   if (error) {
