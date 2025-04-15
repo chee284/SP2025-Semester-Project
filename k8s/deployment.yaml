@@ -1,0 +1,153 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ski-slopes-db
+  labels:
+    app: ski-slopes-db
+spec:
+  selector:
+    matchLabels:
+      app: ski-slopes-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ski-slopes-db
+    spec:
+      containers:
+        - name: ski-slopes-db
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: pgdata-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pgdata-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ski-slopes-db
+spec:
+  selector:
+    app: ski-slopes-db
+  ports:
+  - port: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ski-slopes-app
+  labels:
+    app: ski-slopes-app
+spec:
+  selector:
+    matchLabels:
+      app: ski-slopes-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ski-slopes-app
+    spec:
+      containers:
+      - image: ski-slopes-frontend:v1.0
+        imagePullPolicy: Never
+        name: ski-slopes-app
+        ports:
+        - containerPort: 3000
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+        env:
+        - name: VITE_HOST
+          value: "0.0.0.0"
+        - name: VITE_PORT
+          value: "3000"
+        - name: NEXT_PUBLIC_SUPABASE_URL
+          value: "https://ffcwqqdxkudkeqiojhwz.supabase.co"
+        - name: NEXT_PUBLIC_SUPABASE_ANON_KEY
+          value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
+        - name: VITE_GOOGLE_CLIENT_ID
+          value: "1063631640525-esgmg4tv61innfs4atdtr9tlra2hr6ub.apps.googleusercontent.com"
+        - name: VITE_GITHUB_CLIENT_ID
+          value: "Ov23liN3RVUhmkelPK85"
+        - name: VITE_AUTH_REDIRECT_URI
+          value: "http://localhost/auth/callback"
+        - name: SUPABASE_DB_PASSWORD
+          value: "8kG7vgXSGNM4d48t"
+        - name: SUPABASE_DB_URL
+          value: "postgresql://postgres:8kG7vgXSGNM4d48t@db.ffcwqqdxkudkeqiojhwz.supabase.co:5432/postgres"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ski-slopes-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: ski-slopes-app
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ski-slopes-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ski-slopes-app
+            port:
+              number: 3000
+

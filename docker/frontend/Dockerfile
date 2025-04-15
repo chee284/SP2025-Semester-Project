@@ -1,4 +1,4 @@
-FROM docker.io/node:latest
+FROM docker.io/node:alpine as builder
 
 WORKDIR /app
 
@@ -14,12 +14,30 @@ COPY . .
 # Build the app
 RUN npm run build
 
-EXPOSE 5173
+# Production stage
+FROM nginx:alpine
 
-# Set Vite host to 127.0.0.1
-ENV VITE_HOST=127.0.0.1
+# Copy built assets from builder
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Start the app in development mode with host flag
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+# Create nginx configuration
+RUN echo 'server { \
+    listen 3000; \
+    server_name localhost; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html; \
+        try_files $uri $uri/ /index.html; \
+    } \
+    location /health { \
+        access_log off; \
+        add_header Content-Type text/plain; \
+        return 200 "healthy\n"; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
+EXPOSE 3000
+
+CMD ["nginx", "-g", "daemon off;"]
 
 # docker build -t ski-slopes-frontend -f docker/frontend/Dockerfile ./ski_slopes 
