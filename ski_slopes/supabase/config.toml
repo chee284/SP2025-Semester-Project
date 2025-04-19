@@ -126,15 +126,12 @@ minimum_password_length = 6
 # Passwords that do not meet the following requirements will be rejected as weak.
 password_requirements = ""
 
-<<<<<<< Updated upstream
 # Configure one of the supported captcha providers: `hcaptcha`, `turnstile`.
 # [auth.captcha]
 # enabled = true
 # provider = "hcaptcha"
 # secret = ""
 
-=======
->>>>>>> Stashed changes
 [auth.email]
 # Allow/disallow new user signups via email to your project.
 enable_signup = true
@@ -242,15 +239,6 @@ enabled = false
 # user_pool_id = "my-user-pool-id"
 # user_pool_region = "us-east-1"
 
-<<<<<<< Updated upstream
-=======
-# Use Clerk as a third-party provider alongside Supabase Auth.
-# [auth.third_party.clerk]
-# enabled = false
-# Obtain from https://clerk.com/setup/supabase
-# domain = "example.clerk.accounts.dev"
-
->>>>>>> Stashed changes
 [edge_runtime]
 enabled = true
 # Configure one of the supported request policies: `oneshot`, `per_worker`.
