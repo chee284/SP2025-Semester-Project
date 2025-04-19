@@ -1,32 +1,10 @@
 // src/lib/supabase.ts
 import { createClient } from "@supabase/supabase-js";
 
-console.log("Initializing Supabase client...");
-console.log("Supabase URL:", import.meta.env.NEXT_PUBLIC_SUPABASE_URL);
-console.log("Supabase Key present:", !!import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+const SUPABASE_URL = "http://127.0.0.1:54321";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0";
 
-if (!import.meta.env.NEXT_PUBLIC_SUPABASE_URL) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable');
-}
-
-if (!import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable');
-}
-
-export const supabase = createClient(
-    import.meta.env.NEXT_PUBLIC_SUPABASE_URL,
-    import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    {
-        auth: {
-            persistSession: true,
-            autoRefreshToken: true,
-            detectSessionInUrl: true,
-            flowType: 'pkce'
-        }
-    }
-);
-
-console.log("Supabase client initialized");
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Test database connection
 export const testConnection = async () => {

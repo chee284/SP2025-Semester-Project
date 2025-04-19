@@ -2,8 +2,8 @@ import { create } from "zustand";
 import { createClient, User } from "@supabase/supabase-js";
 
 const supabase = createClient(
-    import.meta.env.NEXT_PUBLIC_SUPABASE_URL,
-    import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    "http://127.0.0.1:54321", 
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
 );
 
 // Initialize session on page load
@@ -101,9 +101,7 @@ export const useAuthStore = create<Auth>((set) => ({
             set({ isLoading: true });
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: "google",
-                options: { 
-                    redirectTo: import.meta.env.VITE_AUTH_REDIRECT_URI 
-                },
+                options: { redirectTo: "http://localhost:54321/auth/v1/callback" },
             });
             if (error) throw error;
             window.location.href = data.url;
@@ -118,9 +116,7 @@ export const useAuthStore = create<Auth>((set) => ({
         try {
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: "github",
-                options: { 
-                    redirectTo: import.meta.env.VITE_AUTH_REDIRECT_URI 
-                },
+                options: { redirectTo: "http://localhost:54321/auth/v1/callback" },
             });
             if (error) throw error;
             window.location.href = data.url;
