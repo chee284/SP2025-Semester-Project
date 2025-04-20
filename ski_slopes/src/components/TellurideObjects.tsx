@@ -1,6 +1,7 @@
 import { Mesh } from 'three';
 import { useState, useRef } from 'react';
 import { Html } from '@react-three/drei';
+import { Sun, Snowflake, Thermometer } from 'lucide-react'
 
 
 type Resort = {
@@ -171,6 +172,135 @@ export const TellurideBillboard = () => {
     );
 }
 
+// Telluride Weather
+
+type TellurideWeather = {
+    date: string;
+    snowfall_chance: number;
+    snowfall_total: number;
+    astronomy: {
+        sunrise: string;
+        sunset: string;
+    }[];
+    temperature: {
+        top: {
+            min_f: number;
+            max_f: number;
+            min_c: number;
+            max_c: number;
+        };
+        mid: {
+            min_f: number;
+            max_f: number;
+            min_c: number;
+            max_c: number;
+        };
+        bottom: {
+            min_f: number;
+            max_f: number;
+            min_c: number;
+            max_c: number;
+        };
+    };
+}
+
+const WeatherData: TellurideWeather = {
+    date: "2025-04-22",
+    snowfall_chance: 45,
+    snowfall_total: 8,
+    astronomy: [{
+        sunrise: "6:52 AM",
+        sunset: "7:22 PM"
+    }],
+    temperature: {
+        top: {
+            min_f: 12,
+            max_f: 22,
+            min_c: -11,
+            max_c: -5
+        },
+        mid: {
+            min_f: 18,
+            max_f: 28,
+            min_c: -8,
+            max_c: -2
+        },
+        bottom: {
+            min_f: 22,
+            max_f: 32,
+            min_c: -5,
+            max_c: 0
+        }
+    }
+};
+
+export const TellurideWeatherSidebar = () => {
+    return (
+        <group position={[-30000.00, 1600.00, -100.00]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={100}>
+            <Html
+                position={[0, 0, 0]}
+                center
+                distanceFactor={20000}
+                transform
+            >
+                <div className="w-[300px] bg-gradient-to-b from-black/80 to-black/60 rounded-lg overflow-y-auto text-white p-4 select-none">
+                    <h3 className="text-xl font-bold text-center mb-4">Today's Mountain Conditions</h3>
+                    
+                    {/* Snow Conditions */}
+                    <div className="bg-white/10 rounded-lg p-3 mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Snowflake className="w-5 h-5 text-blue-300" />
+                            <h4 className="font-medium">Snow Conditions</h4>
+                        </div>
+                        <p className="text-sm">Chance of Snow: {WeatherData.snowfall_chance}%</p>
+                        <p className="text-sm">Expected Snowfall: {WeatherData.snowfall_total}cm</p>
+                    </div>
+
+                    {/* Daylight */}
+                    <div className="bg-white/10 rounded-lg p-3 mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Sun className="w-5 h-5 text-yellow-300" />
+                            <h4 className="font-medium">Daylight</h4>
+                        </div>
+                        <p className="text-sm">Sunrise: {WeatherData.astronomy[0].sunrise}</p>
+                        <p className="text-sm">Sunset: {WeatherData.astronomy[0].sunset}</p>
+                    </div>
+
+                    {/* Temperature Levels */}
+                    <div className="bg-white/10 rounded-lg p-3">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Thermometer className="text-red-300" />
+                            <h4 className="font-medium">Temperature</h4>
+                        </div>
+                        
+                        <div className="space-y-3">
+                            <div>
+                                <h5 className="text-sm font-medium">Summit</h5>
+                                <p className="text-sm">{WeatherData.temperature.top.min_f}°F to {WeatherData.temperature.top.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({WeatherData.temperature.top.min_c}°C to {WeatherData.temperature.top.max_c}°C)</p>
+                            </div>
+                            
+                            <div>
+                                <h5 className="text-sm font-medium">Mid-Mountain</h5>
+                                <p className="text-sm">{WeatherData.temperature.mid.min_f}°F to {WeatherData.temperature.mid.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({WeatherData.temperature.mid.min_c}°C to {WeatherData.temperature.mid.max_c}°C)</p>
+                            </div>
+                            
+                            <div>
+                                <h5 className="text-sm font-medium">Base</h5>
+                                <p className="text-sm">{WeatherData.temperature.bottom.min_f}°F to {WeatherData.temperature.bottom.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({WeatherData.temperature.bottom.min_c}°C to {WeatherData.temperature.bottom.max_c}°C)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Html>
+        </group>
+    );
+}
+
+// Telluride Travel Planning
+
 type TellurideTravelPlanning = {
     title: string;
     description: string;
@@ -205,9 +335,9 @@ const travelPlanningData: TellurideTravelPlanning[] = [
     }
 ]
 
-export const TellurideTerrainSidebar = () => {
+export const TellurideTravelSidebar = () => {
     return (
-        <group position={[28000.00, 1600.00, -475.00]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={100}>
+        <group position={[28000.00, 1600.00, -100.00]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={100}>
             <Html
                 position={[0, 0, 0]}
                 center
