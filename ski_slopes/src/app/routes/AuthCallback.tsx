@@ -9,32 +9,19 @@ export default function AuthCallback() {
     useEffect(() => {
         async function handleAuthRedirect() {
             try {
-                console.log("Starting auth callback...");
-                console.log("Current URL:", window.location.href);
-                
                 const { data, error } = await supabase.auth.exchangeCodeForSession(window.location.href);
-                
                 if (error) {
-                    console.error("Auth callback error:", error);
-                    console.error("Error details:", {
-                        message: error.message,
-                        status: error.status,
-                        name: error.name
-                    });
-                } else {
-                    console.log("Auth successful:", data);
-                    console.log("Session:", data.session);
-                    console.log("User:", data.user);
+                    console.error("Auth callback error:", error.message);
                 }
-
-                navigate("/login"); 
-            } catch (err) {
-                console.error("Unexpected error in auth callback:", err);
+                navigate("/", { replace: true });
+            } catch (error) {
+                console.error("Auth callback error:", error);
+                navigate("/", { replace: true });
             }
         }
 
         handleAuthRedirect();
     }, [navigate]);
 
-    return <p>Processing login...</p>;
+    return null;
 }

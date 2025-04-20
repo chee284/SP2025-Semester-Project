@@ -1,9 +1,25 @@
 import { create } from "zustand";
 import { createClient, User } from "@supabase/supabase-js";
 
+// Helper function to get the correct base URL
+const getBaseUrl = () => {
+    const hostname = window.location.hostname;
+    return hostname === '127.0.0.1' 
+        ? "http://127.0.0.1:54321"
+        : "http://localhost:54321";
+};
+
+// Helper function to get the correct callback URL
+const getCallbackUrl = () => {
+    const hostname = window.location.hostname;
+    return hostname === '127.0.0.1'
+        ? "http://127.0.0.1:5173/auth/callback"
+        : "http://localhost:5173/auth/callback";
+};
+
 const supabase = createClient(
-    import.meta.env.NEXT_PUBLIC_SUPABASE_URL,
-    import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    getBaseUrl(),
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
 );
 
 // Initialize session on page load
@@ -102,7 +118,11 @@ export const useAuthStore = create<Auth>((set) => ({
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: { 
-                    redirectTo: import.meta.env.VITE_AUTH_REDIRECT_URI 
+                    redirectTo: getCallbackUrl(),
+                    queryParams: {
+                        access_type: 'offline',
+                        prompt: 'consent'
+                    }
                 },
             });
             if (error) throw error;
@@ -116,10 +136,15 @@ export const useAuthStore = create<Auth>((set) => ({
 
     signInWithGithub: async () => {
         try {
+            set({ isLoading: true });
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: "github",
                 options: { 
-                    redirectTo: import.meta.env.VITE_AUTH_REDIRECT_URI 
+                    redirectTo: getCallbackUrl(),
+                    queryParams: {
+                        access_type: 'offline',
+                        prompt: 'consent'
+                    }
                 },
             });
             if (error) throw error;

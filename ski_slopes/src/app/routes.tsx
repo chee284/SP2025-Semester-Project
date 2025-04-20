@@ -23,11 +23,8 @@ export default function AppRoutes() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
-
                 <Route path="*" element={<PageNotFound />} />
             </Route>
-            
-        
         </Routes>
     );
 }

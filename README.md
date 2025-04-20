@@ -7,7 +7,7 @@ Name your repository using the following format:
 ## Team Members
 - **Evan Chee**: chee@wustl.edu ; chee284
 - **Daniel Du**: d.du@wustl.edu ; DanielDu0377
-- **Nate Reyes**: n.e.reyes@wustl.edu; ; nathanreyes32
+- **Nate Reyes**: n.e.reyes@wustl.edu; nathanreyes32
 
 ## TA
 &lt;Name of your group's TA&gt;
