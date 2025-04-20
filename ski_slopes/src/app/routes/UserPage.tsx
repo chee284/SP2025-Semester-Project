@@ -29,7 +29,6 @@ const UserPage: React.FC = () => {
 
     const handleSignOut = async () => {
         await signOut();
-        navigate("/");
     };
 
     // Show loading state while checking authentication
