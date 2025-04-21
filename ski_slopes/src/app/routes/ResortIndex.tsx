@@ -167,7 +167,7 @@ const ResortIndex: React.FC = () => {
                         <p className="text-lg text-gray-200 mb-8">
                             Discover detailed 3D terrain maps and information about North America's premier ski destinations.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4 relative" style={{ transform: 'translateY(20px)' }}>
                             <Link 
                                 to="/render" 
                                 className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition-colors duration-200 flex items-center justify-center gap-2 shadow-md"
@@ -191,15 +191,33 @@ const ResortIndex: React.FC = () => {
                 </div>
                 
                 {/* Wave divider */}
-                <div className="absolute bottom-0 left-0 right-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
+                <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-64">
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 1440 320" 
+                        className="w-full h-full"
+                        preserveAspectRatio="none"
+                    >
                         <path fill="#ffffff" fillOpacity="1" d="M0,128L60,117.3C120,107,240,85,360,96C480,107,600,149,720,165.3C840,181,960,171,1080,149.3C1200,128,1320,96,1380,80L1440,64L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
                     </svg>
                 </div>
             </div>
 
+            {/* Snowflake divider */}
+            <div className="relative w-full my-6 flex justify-center">
+                <div className="absolute w-full h-px bg-gray-300 top-1/2 -translate-y-1/2"></div>
+                <div className="relative bg-white p-2 rounded-full z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                        <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+                    </svg>
+                </div>
+            </div>
+
             {/* Resort cards section subtitle */}
-            <div className="max-w-7xl mx-auto px-4 mt-8 mb-10">
+            <div className="max-w-7xl mx-auto px-4 mb-10">
                 <h2 className="text-2xl font-semibold text-gray-800">Featured Resorts</h2>
                 <p className="text-gray-600 mt-2">Select a resort to view details and add to your favorites.</p>
             </div>
