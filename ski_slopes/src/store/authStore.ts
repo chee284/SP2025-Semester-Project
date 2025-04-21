@@ -160,9 +160,12 @@ export const useAuthStore = create<Auth>((set) => ({
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
+            // Update state first
+            set({ session: null, user: null, isLoading: false, isAuthenticated: false });
+            // Then navigate to home
+            window.location.href = "/";
         } catch (error) {
             console.error("signout failed:", error);
-        } finally {
             set({ session: null, user: null, isLoading: false, isAuthenticated: false });
         }
     },

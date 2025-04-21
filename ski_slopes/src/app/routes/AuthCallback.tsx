@@ -9,7 +9,7 @@ export default function AuthCallback() {
     useEffect(() => {
         async function handleAuthRedirect() {
             try {
-                const { data, error } = await supabase.auth.exchangeCodeForSession(window.location.href);
+                const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
                 if (error) {
                     console.error("Auth callback error:", error.message);
                 }
