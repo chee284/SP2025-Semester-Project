@@ -167,7 +167,7 @@ const ResortIndex: React.FC = () => {
                         <p className="text-lg text-gray-200 mb-8">
                             Discover detailed 3D terrain maps and information about North America's premier ski destinations.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 relative" style={{ transform: 'translateY(20px)' }}>
+                        <div className="flex flex-col sm:flex-row gap-4 relative" style={{ transform: 'translateY(40px)' }}>
                             <Link 
                                 to="/render" 
                                 className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition-colors duration-200 flex items-center justify-center gap-2 shadow-md"
