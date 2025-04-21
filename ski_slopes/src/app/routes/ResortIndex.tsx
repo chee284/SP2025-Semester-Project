@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { useFavoriteStore } from "@/store/favoriteStore";
 import { useAuthStore } from "@/store/authStore";
 import toast, { Toaster } from 'react-hot-toast';
@@ -207,9 +207,19 @@ const ResortIndex: React.FC = () => {
             {/* Resort cards section */}
             <div className="max-w-7xl mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {resortData.map((resort, index) => (
-                        <ResortCard key={index} resort={resort} />
-                    ))}
+                    {resortData.map((resort, index) => {
+                        const slug = resort.name
+                            .toLowerCase()
+                            .replace(/\./g, '')         
+                            .replace(/\s+/g, '-');      
+                        const path = `/resorts/${slug}`;
+
+                        return (
+                            <Link key={slug} to={path} className="block hover:scale-105 transition">
+                                <ResortCard resort={resort} />
+                            </Link>
+                        );
+                    })}
                 </div>
             </div>
         </main>
