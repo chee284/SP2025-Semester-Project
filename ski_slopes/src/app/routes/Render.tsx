@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { Canvas, useThree, useFrame  } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Html, useProgress, GizmoHelper, GizmoViewport } from "@react-three/drei";
 import { Suspense, useState, useEffect } from 'react';
