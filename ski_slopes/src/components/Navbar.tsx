@@ -22,14 +22,14 @@ const Navbar: React.FC = () => {
     }, []);
 
     return (
-      <div className="fixed top-0 left-0 w-full h-12 border-b border-gray-500 bg-white z-50">
-        <div className="flex items-center h-full px-4 leading-relaxed">
+      <div className="fixed top-0 left-0 w-full h-16 border-b border-gray-200 bg-white z-50 shadow-sm">
+        <div className="flex items-center h-full px-6 leading-relaxed">
             {/* Logo + Back to home */}
             <Link to="/" className="text-gray-900 text-xl font-semibold">
                 <img 
                     src="/assets/logo/temp_logo2.png"
                     alt="Logo" 
-                    className="h-10 w-auto object-contain"
+                    className="h-12 w-auto object-contain"
                 />
             </Link>
 
@@ -46,22 +46,22 @@ const Navbar: React.FC = () => {
 
             {/* Login Link (Right side) */}
             {user ? (
-                <Link to="/user" className="flex items-center gap-2 text-gray-900 text-l font-semibold ml-auto">
+                <Link to="/user" className="flex items-center gap-3 text-gray-900 text-lg font-semibold ml-auto">
                     <span className="text-gray-900">{user.user_metadata?.full_name ?? user.email}</span>
                     {user.user_metadata?.avatar_url ? (
                         <img 
                             src={user.user_metadata.avatar_url}
                             alt="Profile" 
-                            className="h-8 w-8 rounded-full object-cover"
+                            className="h-10 w-10 rounded-full object-cover"
                         />
                     ) : (
-                        <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
                             <span className="text-gray-600 text-sm">{user.email?.[0].toUpperCase()}</span>
                         </div>
                     )}
                 </Link>
             ) : (
-                <Link to="/login" className="text-gray-900 text-l font-semibold ml-auto">
+                <Link to="/login" className="text-gray-900 text-lg font-semibold ml-auto">
                     Sign In
                 </Link>
             )}

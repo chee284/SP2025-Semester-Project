@@ -161,7 +161,7 @@ const UserPage: React.FC = () => {
                                                         {resortName}
                                                     </span>
                                                     <Link 
-                                                        to="/resorts" 
+                                                        to={`/resorts/${resortName.toLowerCase().replace(/\./g, '').replace(/\s+/g, '-')}`}
                                                         className="text-blue-600 hover:text-blue-700 hover:underline text-sm mt-2 self-end flex items-center"
                                                     >
                                                         View Resort

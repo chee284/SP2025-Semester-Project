@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { useFavoriteStore } from "@/store/favoriteStore";
 import { useAuthStore } from "@/store/authStore";
 import toast, { Toaster } from 'react-hot-toast';
@@ -167,7 +167,7 @@ const ResortIndex: React.FC = () => {
                         <p className="text-lg text-gray-200 mb-8">
                             Discover detailed 3D terrain maps and information about North America's premier ski destinations.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4 relative" style={{ transform: 'translateY(40px)' }}>
                             <Link 
                                 to="/render" 
                                 className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition-colors duration-200 flex items-center justify-center gap-2 shadow-md"
@@ -191,15 +191,33 @@ const ResortIndex: React.FC = () => {
                 </div>
                 
                 {/* Wave divider */}
-                <div className="absolute bottom-0 left-0 right-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
+                <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-64">
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 1440 320" 
+                        className="w-full h-full"
+                        preserveAspectRatio="none"
+                    >
                         <path fill="#ffffff" fillOpacity="1" d="M0,128L60,117.3C120,107,240,85,360,96C480,107,600,149,720,165.3C840,181,960,171,1080,149.3C1200,128,1320,96,1380,80L1440,64L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
                     </svg>
                 </div>
             </div>
 
+            {/* Snowflake divider */}
+            <div className="relative w-4/5 mx-auto my-6 h-12">
+                <div className="absolute w-full h-px bg-gray-300 top-[85%]"></div>
+                <div className="absolute left-1/2 top-[85%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-full z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                        <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+                    </svg>
+                </div>
+            </div>
+
             {/* Resort cards section subtitle */}
-            <div className="max-w-7xl mx-auto px-4 mt-8 mb-10">
+            <div className="max-w-7xl mx-auto px-4 mb-10">
                 <h2 className="text-2xl font-semibold text-gray-800">Featured Resorts</h2>
                 <p className="text-gray-600 mt-2">Select a resort to view details and add to your favorites.</p>
             </div>
@@ -207,9 +225,135 @@ const ResortIndex: React.FC = () => {
             {/* Resort cards section */}
             <div className="max-w-7xl mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {resortData.map((resort, index) => (
-                        <ResortCard key={index} resort={resort} />
-                    ))}
+                    {resortData.map((resort) => {
+                        const slug = resort.name
+                            .toLowerCase()
+                            .replace(/\./g, '')         
+                            .replace(/\s+/g, '-');      
+                        const path = `/resorts/${slug}`;
+
+                        return (
+                            <Link key={slug} to={path} className="block hover:scale-105 transition">
+                                <ResortCard resort={resort} />
+                            </Link>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Snowflake divider */}
+            <div className="relative w-4/5 mx-auto my-6 h-12">
+                <div className="absolute w-full h-px bg-gray-300 top-[85%]"></div>
+                <div className="absolute left-1/2 top-[85%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-full z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                        <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+                    </svg>
+                </div>
+            </div>
+
+            {/* US Ski Mountains Map Title */}
+            <div className="max-w-7xl mx-auto px-4 my-10 text-center">
+                <h2 className="text-2xl font-semibold text-gray-800">United States Ski Mountains Map</h2>
+                <div className="mt-8 bg-white rounded-lg shadow-md p-8 overflow-hidden">
+                    <div className="w-full overflow-x-auto">
+                        <div className="relative" style={{ marginLeft: "-150px" }}>
+                            <img 
+                                src="/assets/maps/usaHigh.svg" 
+                                alt="Map of Continental USA"
+                                className="w-full h-auto min-h-[600px] max-h-[800px] mx-auto"
+                                style={{ 
+                                    objectFit: 'contain', 
+                                    objectPosition: 'left center',
+                                    maxWidth: '110%',
+                                    display: 'block'
+                                }}
+                            />
+                             
+                            {/* Map pins for resort locations - Fine-tuned to be inside state borders*/}
+                            {/* Jackson Hole, WY - Northwest Wyoming */}
+                            <div className="absolute" style={{ top: '26.6%', left: '39.9%' }}>
+                                <div className="relative group">
+                                    <div className="w-3 h-3 bg-red-600 rounded-full shadow-md hover:w-4 hover:h-4 transition-all duration-200"></div>
+                                    <div className="absolute top-0 left-2 bg-white px-3 py-2 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-20 flex flex-col gap-2">
+                                        <span className="text-xs font-medium">Jackson Hole, WY</span>
+                                        <div className="flex gap-2">
+                                            <Link to="/render?resort=jackson-hole" className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded transition-colors">
+                                                View 3D
+                                            </Link>
+                                            <Link to="/resorts/jackson-hole" className="text-xs bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded transition-colors">
+                                                Details
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Telluride, CO - Southwest Colorado */}
+                            <div className="absolute" style={{ top: '48.3%', left: '42.4%' }}>
+                                <div className="relative group">
+                                    <div className="w-3 h-3 bg-red-600 rounded-full shadow-md hover:w-4 hover:h-4 transition-all duration-200"></div>
+                                    <div className="absolute top-0 left-2 bg-white px-3 py-2 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-20 flex flex-col gap-2">
+                                        <span className="text-xs font-medium">Telluride, CO</span>
+                                        <div className="flex gap-2">
+                                            <Link to="/render?resort=telluride" className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded transition-colors">
+                                                View 3D
+                                            </Link>
+                                            <Link to="/resorts/telluride" className="text-xs bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded transition-colors">
+                                                Details
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Mt. Baker, WA - Northwest Washington */}
+                            <div className="absolute" style={{ top: '3.2%', left: '28.9%' }}>
+                                <div className="relative group">
+                                    <div className="w-3 h-3 bg-red-600 rounded-full shadow-md hover:w-4 hover:h-4 transition-all duration-200"></div>
+                                    <div className="absolute top-0 left-2 bg-white px-3 py-2 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-20 flex flex-col gap-2">
+                                        <span className="text-xs font-medium">Mt. Baker, WA</span>
+                                        <div className="flex gap-2">
+                                            <Link to="/render?resort=mt-baker" className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded transition-colors">
+                                                View 3D
+                                            </Link>
+                                            <Link to="/resorts/mt-baker" className="text-xs bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded transition-colors">
+                                                Details
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Snowbird, UT - Northern Utah */}
+                            <div className="absolute" style={{ top: '38.2%', left: '36.8%' }}>
+                                <div className="relative group">
+                                    <div className="w-3 h-3 bg-red-600 rounded-full shadow-md hover:w-4 hover:h-4 transition-all duration-200"></div>
+                                    <div className="absolute top-0 left-2 bg-white px-3 py-2 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-20 flex flex-col gap-2">
+                                        <span className="text-xs font-medium">Snowbird, UT</span>
+                                        <div className="flex gap-2">
+                                            <Link to="/render?resort=snowbird" className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded transition-colors">
+                                                View 3D
+                                            </Link>
+                                            <Link to="/resorts/snowbird" className="text-xs bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded transition-colors">
+                                                Details
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {/* Legend */}
+                <div className="mt-4 flex justify-center">
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-red-600 rounded-full"></div>
+                        <span className="text-sm text-gray-700">Ski Resort Location</span>
+                    </div>
                 </div>
             </div>
         </main>
