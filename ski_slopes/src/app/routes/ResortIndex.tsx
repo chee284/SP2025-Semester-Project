@@ -159,7 +159,7 @@ const ResortIndex: React.FC = () => {
                 </div>
                 
                 {/* Content */}
-                <div className="relative z-10 max-w-7xl mx-auto px-4 py-24 md:py-32">
+                <div className="relative z-10 max-w-7xl mx-auto px-4 py-40">
                     <div className="max-w-2xl">
                         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
                             Explore <span className="text-blue-300">Ski Resorts</span>

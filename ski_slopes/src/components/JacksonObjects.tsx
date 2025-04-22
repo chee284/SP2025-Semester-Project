@@ -3,6 +3,9 @@ import { useState, useRef } from 'react';
 import { Html } from '@react-three/drei';
 import { Sun, Snowflake, Thermometer } from 'lucide-react'
 
+
+// Jackson Hole Resort
+
 type Resort = {
     name: string;
     imagePath: string;
@@ -41,6 +44,8 @@ export const JacksonResortMarker = () => {
         </group>
     );
 }
+
+// Jackson Hole Map Markers
 
 type MapMarker = {
     name: string;
@@ -112,6 +117,8 @@ const MapMarkerItem = ({ marker }: { marker: MapMarker }) => {
     );
 }
 
+// Jackson Hole Billboard
+
 type Advertisement = {
     title: string;
     imagePath: string;
@@ -181,6 +188,8 @@ export const JacksonBillboard = () => {
     );
 }
 
+// Jackson Hole Weather
+
 type JacksonWeather = {
     date: string;
     snowfall_chance: number;
@@ -211,8 +220,8 @@ type JacksonWeather = {
     };
 }
 
-const mockWeatherData: JacksonWeather = {
-    date: "2024-03-14",
+const WeatherData: JacksonWeather = {
+    date: "2025-04-22",
     snowfall_chance: 70,
     snowfall_total: 15,
     astronomy: [{
@@ -241,7 +250,7 @@ const mockWeatherData: JacksonWeather = {
     }
 };
 
-export const JacksonTerrainSidebar = () => {
+export const JacksonWeatherSidebar = () => {
     return (
         <group position={[32000.00, 1600.00, -1000.00]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={100}>
             <Html
@@ -251,7 +260,7 @@ export const JacksonTerrainSidebar = () => {
                 transform
             >
                 <div className="w-[300px] bg-gradient-to-b from-black/80 to-black/60 rounded-lg overflow-y-auto text-white p-4 select-none">
-                    <h3 className="text-xl font-bold text-center mb-4">Jackson Hole Weather</h3>
+                    <h3 className="text-xl font-bold text-center mb-4">Today's Mountain Conditions</h3>
                     
                     {/* Snow Conditions */}
                     <div className="bg-white/10 rounded-lg p-3 mb-4">
@@ -259,8 +268,8 @@ export const JacksonTerrainSidebar = () => {
                             <Snowflake className="w-5 h-5 text-blue-300" />
                             <h4 className="font-medium">Snow Conditions</h4>
                         </div>
-                        <p className="text-sm">Chance of Snow: {mockWeatherData.snowfall_chance}%</p>
-                        <p className="text-sm">Expected Snowfall: {mockWeatherData.snowfall_total}cm</p>
+                        <p className="text-sm">Chance of Snow: {WeatherData.snowfall_chance}%</p>
+                        <p className="text-sm">Expected Snowfall: {WeatherData.snowfall_total}cm</p>
                     </div>
 
                     {/* Daylight */}
@@ -269,8 +278,8 @@ export const JacksonTerrainSidebar = () => {
                             <Sun className="w-5 h-5 text-yellow-300" />
                             <h4 className="font-medium">Daylight</h4>
                         </div>
-                        <p className="text-sm">Sunrise: {mockWeatherData.astronomy[0].sunrise}</p>
-                        <p className="text-sm">Sunset: {mockWeatherData.astronomy[0].sunset}</p>
+                        <p className="text-sm">Sunrise: {WeatherData.astronomy[0].sunrise}</p>
+                        <p className="text-sm">Sunset: {WeatherData.astronomy[0].sunset}</p>
                     </div>
 
                     {/* Temperature Levels */}
@@ -283,22 +292,90 @@ export const JacksonTerrainSidebar = () => {
                         <div className="space-y-3">
                             <div>
                                 <h5 className="text-sm font-medium">Summit</h5>
-                                <p className="text-sm">{mockWeatherData.temperature.top.min_f}°F to {mockWeatherData.temperature.top.max_f}°F</p>
-                                <p className="text-xs text-gray-300">({mockWeatherData.temperature.top.min_c}°C to {mockWeatherData.temperature.top.max_c}°C)</p>
+                                <p className="text-sm">{WeatherData.temperature.top.min_f}°F to {WeatherData.temperature.top.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({WeatherData.temperature.top.min_c}°C to {WeatherData.temperature.top.max_c}°C)</p>
                             </div>
                             
                             <div>
                                 <h5 className="text-sm font-medium">Mid-Mountain</h5>
-                                <p className="text-sm">{mockWeatherData.temperature.mid.min_f}°F to {mockWeatherData.temperature.mid.max_f}°F</p>
-                                <p className="text-xs text-gray-300">({mockWeatherData.temperature.mid.min_c}°C to {mockWeatherData.temperature.mid.max_c}°C)</p>
+                                <p className="text-sm">{WeatherData.temperature.mid.min_f}°F to {WeatherData.temperature.mid.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({WeatherData.temperature.mid.min_c}°C to {WeatherData.temperature.mid.max_c}°C)</p>
                             </div>
                             
                             <div>
                                 <h5 className="text-sm font-medium">Base</h5>
-                                <p className="text-sm">{mockWeatherData.temperature.bottom.min_f}°F to {mockWeatherData.temperature.bottom.max_f}°F</p>
-                                <p className="text-xs text-gray-300">({mockWeatherData.temperature.bottom.min_c}°C to {mockWeatherData.temperature.bottom.max_c}°C)</p>
+                                <p className="text-sm">{WeatherData.temperature.bottom.min_f}°F to {WeatherData.temperature.bottom.max_f}°F</p>
+                                <p className="text-xs text-gray-300">({WeatherData.temperature.bottom.min_c}°C to {WeatherData.temperature.bottom.max_c}°C)</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </Html>
+        </group>
+    );
+}
+
+// Jackson Hole Travel Planning
+
+
+type TellurideTravelPlanning = {
+    title: string;
+    description: string;
+    url: string;
+}
+
+const travelPlanningData: TellurideTravelPlanning[] = [
+    {
+        title: "Find Hotels and Lodging",
+        description: "Explore where to stay in Jackson Hole, Wyoming - whether in Teton Village or downtown Jackson",
+        url: "https://www.jacksonhole.com/lodging"
+    }, 
+    {
+        title: "Fly to Jackson Hole this Winter",
+        description: "With Jackson Hole Airport conveniently located 20 miles from the resort and nonstop flights from 12 major US cities, Jackson Hole is the most accessible destination resort in the Rockies.",
+        url: "https://www.jacksonhole.com/by-air"
+    },
+    {
+        title: "Secure Lift Access",
+        description: "Discover our lift ticket offerings and information to ensure you are ready for your day on the mountain. Buy tickets, explore deals, and answer any questions you have. See you on the slopes!",
+        url: "https://www.jacksonhole.com/lift-tickets"
+    },
+    {
+        title: "Equipment & Gear by JH Sports",
+        description: "Arrange for ski or snowboard rentals and book lessons through the Mountain Sports School if needed. Several rental locations are available in Teton Village.",
+        url: "https://www.jacksonhole.com/jh-sports"
+    },
+    {
+        title: "Summer Activities",
+        description: "Join us at Jackson Hole Mountain Resort to make this summer better than the last.",
+        url: "https://www.thepeaksresort.com/"
+    }
+]
+
+export const JacksonTravelSidebar = () => {
+    return (
+        <group position={[-31000.00, 1600.00, -1200.00]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={100}>
+            <Html
+                position={[0, 0, 0]}
+                center
+                distanceFactor={20000}
+                transform
+            >
+                <div className="w-[200px] h-[575px] bg-gradient-to-b from-black/80 to-black/60 rounded-lg overflow-y-auto">
+                    <div className="p-2 space-y-2">
+                        <h3 className="text-white text-sm font-bold text-center mb-3">Travel Planning</h3>
+                        {travelPlanningData.map((item, index) => (
+                            <a 
+                                key={index}
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block bg-white/10 rounded-lg p-2 hover:bg-white/20 transition-colors"
+                            >
+                                <h4 className="text-white text-xs font-semibold mb-1">{item.title}</h4>
+                                <p className="text-white/70 text-[10px] line-clamp-3">{item.description}</p>
+                            </a>
+                        ))}
                     </div>
                 </div>
             </Html>

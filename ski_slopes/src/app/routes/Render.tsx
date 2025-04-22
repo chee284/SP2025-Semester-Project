@@ -1,9 +1,9 @@
 import { Canvas, useThree, useFrame  } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Html, useProgress, GizmoHelper, GizmoViewport } from "@react-three/drei";
 import { Suspense, useState, useEffect } from 'react';
-import { JacksonResortMarker, JacksonMapMarker, JacksonBillboard, JacksonTerrainSidebar } from "@/components/JacksonObjects";
-import { TellurideResortMarker, TellurideMapMarker, TellurideBillboard, TellurideTerrainSidebar } from "@/components/TellurideObjects";
-import { BakerResortMarker, BakerMapMarker, BakerTerrainSidebar } from "@/components/BackerObjects";
+import { JacksonResortMarker, JacksonMapMarker, JacksonBillboard, JacksonWeatherSidebar, JacksonTravelSidebar } from "@/components/JacksonObjects";
+import { TellurideResortMarker, TellurideMapMarker, TellurideBillboard, TellurideTravelSidebar, TellurideWeatherSidebar } from "@/components/TellurideObjects";
+import { BakerResortMarker, BakerMapMarker, BakerBillboard, BakerWeatherSidebar, BakerTravelSidebar } from "@/components/BackerObjects";
 import { SnowEffect } from '@/components/SnowEffect'; 
 import { useSearchParams } from 'react-router-dom';
 
@@ -82,7 +82,7 @@ const Render: React.FC = () => {
     const [selectedModel, setSelectedModel] = useState(getInitialModel());
     // Set the initial camera distance
     const [cameraDistance, _setCameraDistance] = useState(40000);
-    const [showSnow, setShowSnow] = useState(true);
+    // const [showSnow, setShowSnow] = useState(true);
 
 
     const CameraSetup = () => {
@@ -104,11 +104,20 @@ const Render: React.FC = () => {
             </div>
 
             {/* Toggles */}
-            <div className="absolute bottom-4 left-3 z-10 bg-white/80 shadow-md rounded space-y-1">
-                <label className="flex items-center space-x-2 cursor-pointer">
+            <div className="absolute bottom-4 left-3 z-10 bg-white/80 shadow-md rounded p-3 text-sm max-w-sx space-y-1">
+                {/* <label className="flex items-center space-x-2 cursor-pointer">
                     <input type="checkbox" checked={showSnow} onChange={() => setShowSnow(!showSnow)} />
                     <span>Show Snow</span>
-                </label>
+                </label> */}
+                <h4 className="font-semibold text-gray-700 border-b pb-1 mb-2">Controls</h4>
+                <ul className="space-y-1 text-gray-600">
+                    <li><kbd className="inline-block px-1.5 py-0.5 border rounded bg-gray-200 font-mono text-xs">RMB</kbd> + Drag: Rotate</li>
+                    <li><kbd className="inline-block px-1.5 py-0.5 border rounded bg-gray-200 font-mono text-xs">LMB</kbd> + Drag: Pan</li>
+                    <li><kbd className="inline-block px-1.5 py-0.5 border rounded bg-gray-200 font-mono text-xs">Shift</kbd> + <kbd className="inline-block px-1.5 py-0.5 border rounded bg-gray-200 font-mono text-xs">RMB</kbd> + Drag: Pan</li>
+                    <li><kbd className="inline-block px-1.5 py-0.5 border rounded bg-gray-200 font-mono text-xs">Scroll</kbd> : Zoom</li>
+                </ul>
+
+
             </div>
 
             <ModelPreloader />
@@ -123,7 +132,7 @@ const Render: React.FC = () => {
                     <OrbitControls 
                         key={selectedModel}
                         minDistance={1500}
-                        maxDistance={50000}
+                        maxDistance={75000}
                         enableDamping={true}
                         dampingFactor={0.50}
                         maxPolarAngle={Math.PI/2} // lock camera above horizon
@@ -135,7 +144,8 @@ const Render: React.FC = () => {
                         color={0xfff0dd} // Set a warm, slightly yellowish color
                     />
                     <Model modelPath={selectedModel} />
-                    {showSnow && <SnowEffect count={10000} areaTop={45000} />} 
+                    {/* Snow Effect */}
+                    <SnowEffect key={`snow-${selectedModel}`} count={5000} areaTop={45000} />
 
                     <GizmoHelper alignment="top-right" margin={[70, 70]}>
                         <GizmoViewport />
@@ -146,7 +156,8 @@ const Render: React.FC = () => {
                             <JacksonResortMarker />
                             <JacksonMapMarker />
                             <JacksonBillboard />
-                            <JacksonTerrainSidebar />
+                            <JacksonWeatherSidebar />
+                            <JacksonTravelSidebar />
                         </>
                     }
 
@@ -155,7 +166,8 @@ const Render: React.FC = () => {
                             <TellurideResortMarker />
                             <TellurideMapMarker />
                             <TellurideBillboard />
-                            <TellurideTerrainSidebar />
+                            <TellurideWeatherSidebar />
+                            <TellurideTravelSidebar />
                         </>
                     }
 
@@ -163,7 +175,9 @@ const Render: React.FC = () => {
                         <>
                             <BakerResortMarker />
                             <BakerMapMarker />
-                            <BakerTerrainSidebar />
+                            <BakerBillboard />
+                            <BakerWeatherSidebar />
+                            <BakerTravelSidebar />
                         </>
                     }
 

@@ -5,30 +5,36 @@ import { Points, PointMaterial } from '@react-three/drei';
 
 interface SnowEffectProps {
     count?: number;
-    areaWidth?: number; // Width (X) of the area snow falls in
-    areaDepth?: number; // Depth (Z) of the area snow falls in
-    areaTop?: number;   // Y position where snow starts
-    areaBottom?: number; // Y position where snow disappears/resets
+    areaWidth?: number;
+    areaDepth?: number;
+    areaTop?: number;
+    areaBottom?: number;
 }
 
 export const SnowEffect: React.FC<SnowEffectProps> = ({ 
     count = 5000, 
-    areaWidth = 60000, 
+    areaWidth = 80000, 
     areaDepth = 60000, 
     areaTop = 30000, 
     areaBottom = 0 
 }) => {
     const pointsRef = useRef<THREE.Points>(null!);
-
-    // Generate random initial positions for snowflakes
-    const positions = useMemo(() => {
+    
+    // Generate random initial positions and speeds for snowflakes
+    const [positions, speeds] = useMemo(() => {
         const posArray = new Float32Array(count * 3);
-        for (let i = 0; i < count * 3; i += 3) {
-            posArray[i] = Math.random() * areaWidth - areaWidth / 2; // X
-            posArray[i + 1] = Math.random() * (areaTop - areaBottom) + areaBottom; // Y
-            posArray[i + 2] = Math.random() * areaDepth - areaDepth / 2; // Z
+        const speedArray = new Float32Array(count);
+        
+        for (let i = 0; i < count; i++) {
+            const i3 = i * 3;
+            posArray[i3] = Math.random() * areaWidth - areaWidth / 2; // X
+            posArray[i3 + 1] = Math.random() * (areaTop - areaBottom) + areaBottom; // Y
+            posArray[i3 + 2] = Math.random() * areaDepth - areaDepth / 2; // Z
+            
+            // Assign a random speed to each snowflake
+            speedArray[i] = 400 + Math.random() * 300; // Varied speed between 400-700
         }
-        return posArray;
+        return [posArray, speedArray];
     }, [count, areaWidth, areaDepth, areaTop, areaBottom]);
 
     // Animate snow falling
@@ -36,19 +42,23 @@ export const SnowEffect: React.FC<SnowEffectProps> = ({
         if (!pointsRef.current) return;
         
         const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
-        const fallSpeed = 500 + Math.random() * 200; // Slightly varied speed
 
-        for (let i = 1; i < positions.length; i += 3) { // Index 1 is Y
-            positions[i] -= fallSpeed * delta; // Move down based on time delta
+        for (let i = 0; i < count; i++) {
+            const i3 = i * 3;
+            const y = i3 + 1; // Y position index
+            
+            // Move down based on individual speed and time delta
+            positions[y] -= speeds[i] * delta;
 
             // Reset snowflake to the top if it falls below the bottom
-            if (positions[i] < areaBottom) {
-                positions[i] = areaTop;
-                 // ~ slightly randomize X/Z on reset
-                positions[i - 1] = Math.random() * areaWidth - areaWidth / 2;
-                positions[i + 1] = Math.random() * areaDepth - areaDepth / 2;
+            if (positions[y] < areaBottom) {
+                positions[y] = areaTop;
+                // Randomize X/Z on reset
+                positions[i3] = Math.random() * areaWidth - areaWidth / 2;     // X
+                positions[i3 + 2] = Math.random() * areaDepth - areaDepth / 2; // Z
             }
         }
+        
         // Inform Three.js that the positions need updating
         pointsRef.current.geometry.attributes.position.needsUpdate = true;
     });
@@ -60,7 +70,7 @@ export const SnowEffect: React.FC<SnowEffectProps> = ({
                 color="#ffffff" 
                 size={100}
                 sizeAttenuation={true} 
-                depthWrite={false} // Prevent writing to depth buffer for better blending
+                depthWrite={false}
             />
         </Points>
     );
