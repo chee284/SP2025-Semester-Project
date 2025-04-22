@@ -225,7 +225,7 @@ const ResortIndex: React.FC = () => {
             {/* Resort cards section */}
             <div className="max-w-7xl mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {resortData.map((resort, index) => {
+                    {resortData.map((resort) => {
                         const slug = resort.name
                             .toLowerCase()
                             .replace(/\./g, '')         

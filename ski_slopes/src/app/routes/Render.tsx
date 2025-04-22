@@ -5,7 +5,7 @@ import { JacksonResortMarker, JacksonMapMarker, JacksonBillboard, JacksonTerrain
 import { TellurideResortMarker, TellurideMapMarker, TellurideBillboard, TellurideTerrainSidebar } from "@/components/TellurideObjects";
 import { BakerResortMarker, BakerMapMarker, BakerTerrainSidebar } from "@/components/BackerObjects";
 import { SnowEffect } from '@/components/SnowEffect'; 
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 const availableModels = [
     { name: "Jackson Hole", path: "/models/jackson-hole.glb", slug: "jackson-hole" },
