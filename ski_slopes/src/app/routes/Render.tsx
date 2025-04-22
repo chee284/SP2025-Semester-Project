@@ -5,12 +5,13 @@ import { JacksonResortMarker, JacksonMapMarker, JacksonBillboard, JacksonTerrain
 import { TellurideResortMarker, TellurideMapMarker, TellurideBillboard, TellurideTerrainSidebar } from "@/components/TellurideObjects";
 import { BakerResortMarker, BakerMapMarker, BakerTerrainSidebar } from "@/components/BackerObjects";
 import { SnowEffect } from '@/components/SnowEffect'; 
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 const availableModels = [
-    { name: "Jackson Hole", path: "/models/jackson-hole.glb" },
-    { name: "Telluride", path: "/models/telluride.glb" },
-    { name: "Mt. Baker", path: "/models/mt-baker.glb" },
-    // { name: "Snowbird", path: "/models/snowbird.glb" }
+    { name: "Jackson Hole", path: "/models/jackson-hole.glb", slug: "jackson-hole" },
+    { name: "Telluride", path: "/models/telluride.glb", slug: "telluride" },
+    { name: "Mt. Baker", path: "/models/mt-baker.glb", slug: "mt-baker" },
+    // { name: "Snowbird", path: "/models/snowbird.glb", slug: "snowbird" }
 ];
 
 const Loader: React.FC = () => {
@@ -33,14 +34,14 @@ const Model: React.FC<{ modelPath: string }> = ({ modelPath }) => {
     return <primitive object={scene} />;
 };
 
-const MountainDropdown: React.FC<{ onSelectModel: (path: string) => void }> = ({ onSelectModel }) => {
+const MountainDropdown: React.FC<{ onSelectModel: (path: string) => void, selectedValue: string }> = ({ onSelectModel, selectedValue }) => {
     return (
         <div className="absolute top-5 left-3 z-10">
             <div className="bg-white bg-opacity-80 p-2 shadow-md">
                 <select 
                 className="px-2 py-1 rounded border"
                 onChange={(e) => onSelectModel(e.target.value)}
-                defaultValue={availableModels[0].path}
+                value={selectedValue}
                 >
                 {availableModels.map((model) => (
                     <option key={model.path} value={model.path}>
@@ -66,7 +67,19 @@ const CameraPosition = () => {
 };
 
 const Render: React.FC = () => {
-    const [selectedModel, setSelectedModel] = useState(availableModels[0].path);
+    const [searchParams] = useSearchParams();
+    const resortParam = searchParams.get('resort');
+    
+    // Find the correct model path based on the resort parameter
+    const getInitialModel = () => {
+        if (resortParam) {
+            const foundModel = availableModels.find(model => model.slug === resortParam);
+            return foundModel ? foundModel.path : availableModels[0].path;
+        }
+        return availableModels[0].path;
+    };
+    
+    const [selectedModel, setSelectedModel] = useState(getInitialModel());
     // Set the initial camera distance
     const [cameraDistance, _setCameraDistance] = useState(40000);
     const [showSnow, setShowSnow] = useState(true);
@@ -158,7 +171,7 @@ const Render: React.FC = () => {
                     <CameraPosition />
                 </Suspense>
             </Canvas>
-            <MountainDropdown onSelectModel={setSelectedModel} />
+            <MountainDropdown onSelectModel={setSelectedModel} selectedValue={selectedModel} />
         </main>
     );
 };
