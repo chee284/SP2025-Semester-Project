@@ -9,7 +9,7 @@ import Dashboard from "./routes/Dashboard";
 import UserPage from "./routes/UserPage";
 import PageNotFound from "./routes/error/PageNotFound";
 import Render from "./routes/Render";
-// import AuthCallback from "./routes/AuthCallback";
+import AuthCallback from "./routes/AuthCallback";
 
 // Import individual resort pages
 import JacksonHole from "./routes/JacksonHole";
@@ -35,7 +35,7 @@ export default function AppRoutes() {
                 <Route path="/resorts/mt-baker" element={<MtBaker />} />
                 <Route path="/resorts/snowbird" element={<Snowbird />} />
                 
-                {/* <Route path="/auth/callback" element={<AuthCallback />} /> */}
+                <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route path="*" element={<PageNotFound />} />
             </Route>
         </Routes>
