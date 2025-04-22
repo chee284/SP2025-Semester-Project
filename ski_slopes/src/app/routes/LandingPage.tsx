@@ -5,7 +5,7 @@ const LandingPage = () => {
     const { isAuthenticated } = useAuthStore();
 
     return (
-        <div className="flex flex-col gap-16 max-w-screen mx-auto leading-relaxed mt-12">
+        <div className="flex flex-col gap-16 max-w-screen mx-auto leading-relaxed mt-16">
             {/* Hero Section */}
             <section className="min-h-[100vh] grid place-content-center text-center relative overflow-hidden">
                 {/* Video background + dark overlay */}
